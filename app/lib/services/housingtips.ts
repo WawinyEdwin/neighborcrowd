@@ -11,7 +11,7 @@ export const getHousingTips = async (id: string) => {
     console.error("Error fetching housing tips:", error);
     return [];
   }
-  console.log(data);
+
   return data ?? [];
 };
 
