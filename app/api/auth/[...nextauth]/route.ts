@@ -22,7 +22,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user }) {
       const existingUser = await getUserProfileByEmail(user.email);
 
       if (!existingUser) {

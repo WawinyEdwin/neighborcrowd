@@ -7,6 +7,7 @@ import "./globals.css";
 
 const lus = Lustria({
   weight: "400",
+  subsets: ["latin"]
 });
 
 export const metadata: Metadata = {

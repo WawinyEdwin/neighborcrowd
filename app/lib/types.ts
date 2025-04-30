@@ -1,3 +1,22 @@
+import "next-auth";
+
+declare module "next-auth" {
+  interface User {
+    id?: string;
+    profile?: UserProfile;
+  }
+
+  interface Session {
+    user?: User;
+  }
+}
+
+export interface Verification {
+  id: string;
+  user_profiles: UserProfile;
+  verified: boolean;
+  comment: string;
+}
 export interface UserProfile {
   id: string;
   name: string;
@@ -49,6 +68,24 @@ export interface HousingTip {
   verification_count: number;
 }
 
+export interface HousingTipWithUserProfile {
+  id: string;
+  user_id: string;
+  neighborhood_id: string;
+  building_name: string;
+  description: string;
+  contact_info: string;
+  availability: boolean;
+  images: string[];
+  created_at: string;
+  verified: boolean;
+  verification_count: number;
+  user_profiles: {
+    name: string;
+    avatar_url: string;
+  };
+}
+
 export interface BuildingProfile {
   id: string;
   name: string;
@@ -58,17 +95,4 @@ export interface BuildingProfile {
   landlord_rating: number;
   overall_rating: number;
   tips: HousingTip[];
-}
-
-import "next-auth";
-
-declare module "next-auth" {
-  interface User {
-    id?: string;
-    profile?: UserProfile; // Replace 'any' with your profile type if you have one
-  }
-
-  interface Session {
-    user?: User;
-  }
 }

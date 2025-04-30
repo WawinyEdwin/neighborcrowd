@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Verification } from "../lib/types";
 
 export default function VerificationModal({
   isOpen,
@@ -10,7 +11,7 @@ export default function VerificationModal({
 }: {
   isOpen: boolean;
   onClose: () => void;
-  verifications: any[];
+  verifications: Verification[];
   onSubmit: (verified: boolean, comment?: string) => void;
 }) {
   const [comment, setComment] = useState("");
@@ -81,7 +82,9 @@ export default function VerificationModal({
                     </span>
                   </div>
                   {v.comment && (
-                    <p className="text-sm text-gray-600 mt-1">"{v.comment}"</p>
+                    <p className="text-sm text-gray-600 mt-1">
+                      &quot;{v.comment}&quot;
+                    </p>
                   )}
                 </div>
               ))}

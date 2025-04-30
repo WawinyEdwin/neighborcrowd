@@ -1,19 +1,17 @@
 import { supabase } from "../supabase";
-import { HousingTip } from "../types";
+import { Verification } from "../types";
 
-export const getHousingTips = async (id: string): Promise<HousingTip[]> => {
+export const getHousingTips = async (id: string) => {
   const { data, error } = await supabase
     .from("housing_tips")
-    .select(
-      "id, building_name, contact_info, availability, user_id, neighborhood_id, description, images, created_at, verification_count, verified"
-    )
+    .select(`*,   user_profiles:user_id(name, avatar_url)`)
     .eq("neighborhood_id", id);
 
   if (error) {
     console.error("Error fetching housing tips:", error);
     return [];
   }
-
+  console.log(data);
   return data ?? [];
 };
 
@@ -32,7 +30,7 @@ export const getLatestHousingTips = async (limit = 10) => {
         user_profiles:user_id(name, avatar_url)
       )
     `
-    ) // Added closing parenthesis here
+    )
     .order("created_at", { ascending: false })
     .limit(limit);
 
@@ -41,13 +39,14 @@ export const getLatestHousingTips = async (limit = 10) => {
     return [];
   }
 
-  // Process the data to count verifications
+  // Count verifications
   const processedData = data?.map((tip) => ({
     ...tip,
     verification_count:
-      tip.verifications?.filter((v: any) => v.verified).length || 0,
+      tip.verifications?.filter((v: Verification) => v.verified).length || 0,
     is_verified:
-      (tip.verifications?.filter((v: any) => v.verified).length || 0) > 0,
+      (tip.verifications?.filter((v: Verification) => v.verified).length || 0) >
+      0,
   }));
 
   return processedData || [];

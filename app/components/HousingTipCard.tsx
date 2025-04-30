@@ -5,15 +5,16 @@ import {
   getVerificationStatus,
   verifyTip,
 } from "@/app/lib/services/verifications";
-import { useEffect, useState } from "react";
-import VerificationModal from "./VerificationModal";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { HousingTipWithUserProfile, Verification } from "../lib/types";
+import VerificationModal from "./VerificationModal";
 
 export default function HousingTipCard({
   tip,
   userId,
 }: {
-  tip: any;
+  tip: HousingTipWithUserProfile;
   userId: string | undefined;
 }) {
   const [verificationState, setVerificationState] = useState({
@@ -22,7 +23,7 @@ export default function HousingTipCard({
     userVerified: null as boolean | null,
     showModal: false,
   });
-  const [verifications, setVerifications] = useState<any[]>([]);
+  const [verifications, setVerifications] = useState<Verification[]>([]);
 
   useEffect(() => {
     const loadVerifications = async () => {
@@ -35,7 +36,7 @@ export default function HousingTipCard({
 
       if (userId) {
         const userVerification = status.verifications.find(
-          (v: any) => v.user_id === userId
+          (v: { user_id: string; verified: boolean }) => v.user_id === userId
         );
         if (userVerification) {
           setVerificationState((prev) => ({
@@ -74,7 +75,7 @@ export default function HousingTipCard({
         <div>
           <h3 className="font-semibold">{tip.building_name}</h3>
           <p className="text-sm text-gray-500">
-            {tip.neighborhoods?.name || "Unknown neighborhood"}
+            {tip.neighborhood_id || "Unknown neighborhood"}
           </p>
         </div>
         <span
