@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Lustria } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import AuthProvider from "./components/AuthProvider";
 import Header from "./components/Header";
 import "./globals.css";
 
-const lus = Lustria({
+const lus = Plus_Jakarta_Sans({
   weight: "400",
   subsets: ["latin"],
 });

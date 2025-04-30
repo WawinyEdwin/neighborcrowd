@@ -4,13 +4,13 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FcCollaboration, FcHome, FcLike, FcSurvey } from "react-icons/fc";
 import { authOptions } from "./api/auth/[...nextauth]/authOptions";
-import { getNeighborhoods } from "./lib/services/neighborhoods";
+import { getNeighborHoods } from "./lib/services/neighborhoods";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
   if (session) redirect("/dashboard");
 
-  const neighborhoods = await getNeighborhoods();
+  const neighborhoods = await getNeighborHoods(3);
 
   return (
     <div className="min-h-screen">

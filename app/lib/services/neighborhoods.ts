@@ -1,10 +1,12 @@
 import { supabase } from "@/app/lib/supabase";
 import { Neighborhood, NeighborhoodSummary } from "../types";
 
-export const getNeighborHoods = async (limit: number): Promise<NeighborhoodSummary[]> => {
+export const getNeighborHoods = async (
+  limit: number
+): Promise<NeighborhoodSummary[]> => {
   const { data, error } = await supabase
     .from("neighborhoods")
-    .select("id, name, image_url, tip_count, average_rent")
+    .select(`id, name, image_url, tip_count, average_rent`)
     .order("tip_count", { ascending: false })
     .limit(limit);
 
@@ -16,13 +18,28 @@ export const getNeighborHoods = async (limit: number): Promise<NeighborhoodSumma
   return data;
 };
 
-export const getNeighborhoodBySlug = async (
-  slug: string
+export const getAllNeighborHoods = async (): Promise<
+  { id: string; name: string }[]
+> => {
+  const { data, error } = await supabase
+    .from("neighborhoods")
+    .select("id, name");
+
+  if (error) {
+    console.error("Error fetching neighborhoods:", error);
+    return [];
+  }
+
+  return data;
+};
+
+export const getNeighborhoodById = async (
+  id: string
 ): Promise<Neighborhood | null> => {
   const { data, error } = await supabase
     .from("neighborhoods")
-    .select("*")
-    .eq("slug", slug)
+    .select(`*`)
+    .eq("id", id)
     .single();
 
   if (error) {

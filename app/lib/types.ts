@@ -11,6 +11,11 @@ declare module "next-auth" {
   }
 }
 
+export interface IdAndName {
+  id: string;
+  name: string;
+}
+
 export interface Verification {
   id: string;
   user_profiles: UserProfile;
@@ -90,9 +95,32 @@ export interface BuildingProfile {
   id: string;
   name: string;
   neighborhood_id: string;
+  image_url?: string;
   description: string;
   amenities: string[];
   landlord_rating: number;
   overall_rating: number;
   tips: HousingTip[];
+}
+
+export interface BuildingProfileInfo {
+  id: string;
+  name: string;
+  neighborhood: Neighborhood;
+  image_url?: string;
+  description: string;
+  amenities: string[];
+  landlord_rating: number;
+  overall_rating: number;
+  tips: HousingTip[];
+  review_count?: number;
+  unit_count?: number;
+  water_availability?: number;
+}
+
+export interface BuildingProfileSearch {
+  id: string;
+  name: string;
+  neighborhood_id: string;
+  image_url: string;
 }

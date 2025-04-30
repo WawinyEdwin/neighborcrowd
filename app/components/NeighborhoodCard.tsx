@@ -13,7 +13,7 @@ export default function NeighborhoodCard({
 }: NeighborhoodCardProps) {
   return (
     <Link href={`/neighborhoods/${neighborhood.id}`}>
-      <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+      <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
         <div className="relative h-48">
           <Image
             priority={true}

@@ -16,7 +16,7 @@ export default async function Page() {
     redirect("/login");
   }
 
-  const neighborhoods = await getNeighborHoods(5);
+  const neighborhoods = await getNeighborHoods(8);
 
   const recentTips = await getLatestHousingTips();
 
@@ -28,7 +28,7 @@ export default async function Page() {
 
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Featured Neighborhoods</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
           {neighborhoods?.map((neighborhood) => (
             <NeighborhoodCard
               key={neighborhood.id}
@@ -40,7 +40,7 @@ export default async function Page() {
 
       <section>
         <h2 className="text-xl font-semibold mb-4">Recent Housing Tips</h2>
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
           {recentTips?.map((tip) => (
             <HousingTipCard key={tip.id} tip={tip} userId={userId} />
           ))}

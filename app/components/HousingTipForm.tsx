@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { supabase } from "@/app/lib/supabase";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import BuildingSelect from "./SelectBuilding";
+import NeighborHoodSelect from "./SelectNeighborHood";
 
 interface HousingTipFormProps {
   userId: string | undefined;
+  hoods: { id: string; name: string }[];
+  buildings: { id: string; name: string }[];
   initialData?: {
+    building_id?: string;
     building_name?: string;
     neighborhood_id?: string;
     description?: string;
@@ -19,10 +24,12 @@ interface HousingTipFormProps {
 export default function HousingTipForm({
   userId,
   initialData,
+  hoods,
+  buildings,
 }: HousingTipFormProps) {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    building_name: initialData?.building_name || "",
+    building_id: initialData?.building_id || "",
     neighborhood_id: initialData?.neighborhood_id || "",
     description: initialData?.description || "",
     contact_info: initialData?.contact_info || "",
@@ -46,7 +53,7 @@ export default function HousingTipForm({
       if (error) throw error;
 
       router.push("/dashboard");
-      router.refresh(); // Refresh to show new tip
+      router.refresh();
     } catch (error) {
       console.error("Error submitting tip:", error);
     } finally {
@@ -57,35 +64,24 @@ export default function HousingTipForm({
   return (
     <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
       <div>
-        <label className="block mb-1 font-medium">Building Name</label>
-        <input
-          type="text"
-          value={formData.building_name}
-          onChange={(e) =>
-            setFormData({ ...formData, building_name: e.target.value })
-          }
-          className="w-full p-2 border rounded"
-          required
+        <label className="block mb-1 font-medium">Building</label>
+        <BuildingSelect
+          value={formData.building_id}
+          buildings={buildings}
+          onChange={(value) => setFormData({ ...formData, building_id: value })}
         />
       </div>
 
       <div>
         <label className="block mb-1 font-medium">Neighborhood</label>
-        <select
+        <NeighborHoodSelect
           value={formData.neighborhood_id}
-          onChange={(e) =>
-            setFormData({ ...formData, neighborhood_id: e.target.value })
+          hoods={hoods}
+          onChange={(value) =>
+            setFormData({ ...formData, neighborhood_id: value })
           }
-          className="w-full p-2 border rounded"
-          required
-        >
-          <option value="">Select a neighborhood</option>
-          <option value="kileleshwa">Kileleshwa</option>
-          <option value="kilimani">Kilimani</option>
-          <option value="westlands">Westlands</option>
-        </select>
+        />
       </div>
-
       <div>
         <label className="block mb-1 font-medium">Description</label>
         <textarea
@@ -129,8 +125,8 @@ export default function HousingTipForm({
 
       <button
         type="submit"
-        disabled={isSubmitting}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+        disabled={isSubmitting || !formData.building_id}
+        className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
       >
         {isSubmitting ? "Submitting..." : "Submit Tip"}
       </button>

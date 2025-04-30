@@ -1,10 +1,13 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import BuildingProfile from "@/app/components/BuildingProfile";
+import BuildingSearchWrapper from "@/app/components/BuildingSearchWrapper";
 import ContributorCard from "@/app/components/ContributorCard";
 import HousingTipCard from "@/app/components/HousingTipCard";
 import NeighborhoodCard from "@/app/components/NeighborhoodCard";
+import { getBuildingsByNeighborhood } from "@/app/lib/services/buildingprofiles"; // Add this import
 import { getHousingTips } from "@/app/lib/services/housingtips";
 import {
-  getNeighborhoodBySlug,
+  getNeighborhoodById,
   getTopContributors,
 } from "@/app/lib/services/neighborhoods";
 import { getServerSession } from "next-auth";
@@ -19,11 +22,14 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
   const userId = session?.user?.profile?.id;
 
-  const neighborhood = await getNeighborhoodBySlug(id);
+  const neighborhood = await getNeighborhoodById(id);
   if (!neighborhood) redirect("/neighborhoods");
 
-  const tips = await getHousingTips(id);
-  const contributors = await getTopContributors(id);
+  const [tips, contributors, buildings] = await Promise.all([
+    getHousingTips(id),
+    getTopContributors(id),
+    getBuildingsByNeighborhood(id),
+  ]);
 
   return (
     <div className="container mx-auto p-4">
@@ -34,13 +40,37 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          <div className="flex justify-between">
-            <h2 className="text-xl font-semibold mb-4">Recent Housing Tips</h2>
+          <div className="mb-6 rounded-lg">
+            <h2 className="text-xl font-semibold mb-3">
+              Find Buildings in {neighborhood.name}
+            </h2>
+            <BuildingSearchWrapper neighborhoodId={id} />
+          </div>
+          {buildings.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4">Popular Buildings</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {buildings.map((building) => (
+                  <BuildingProfile key={building.id} building={building} />
+                ))}
+              </div>
+              <div className="mt-4 text-center">
+                <Link
+                  href={`/buildings?neighborhood=${id}`}
+                  className="text-blue-600 hover:underline"
+                >
+                  View all buildings in {neighborhood.name} →
+                </Link>
+              </div>
+            </div>
+          )}
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold">Recent Housing Tips</h2>
             <Link
               href={`/tips/submit?neighborhood=${neighborhood.id}`}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-4"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
             >
-              Submit Tip for {neighborhood.name}
+              Submit Tip
             </Link>
           </div>
 
@@ -89,14 +119,16 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
             <h4 className="font-medium mt-4 mb-2">Key Amenities</h4>
             <div className="flex flex-wrap gap-2">
-              {neighborhood.amenities.map((amenity, index) => (
-                <span
-                  key={index}
-                  className="bg-white px-3 py-1 rounded-full text-xs shadow-sm"
-                >
-                  {amenity}
-                </span>
-              ))}
+              {neighborhood.amenities &&
+                neighborhood.amenities.length > 0 &&
+                neighborhood.amenities.map((amenity, index) => (
+                  <span
+                    key={index}
+                    className="bg-white px-3 py-1 rounded-full text-xs shadow-sm"
+                  >
+                    {amenity}
+                  </span>
+                ))}
             </div>
           </div>
         </div>

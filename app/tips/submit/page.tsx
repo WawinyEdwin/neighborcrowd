@@ -1,7 +1,9 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import HousingTipCard from "@/app/components/HousingTipCard";
 import HousingTipForm from "@/app/components/HousingTipForm";
+import { getAllBuildingProfiles } from "@/app/lib/services/buildingprofiles";
 import { getLatestHousingTips } from "@/app/lib/services/housingtips";
+import { getAllNeighborHoods } from "@/app/lib/services/neighborhoods";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -13,13 +15,16 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
-
   if (!session?.user) {
     redirect("/login?callbackUrl=/tips/submit");
   }
+  
+  const [hoods, buildings] = await Promise.all([
+    getAllNeighborHoods(),
+    getAllBuildingProfiles(),
+  ]);
 
   const userId = session?.user?.profile?.id;
-
   const latestTips = await getLatestHousingTips();
 
   return (
@@ -27,7 +32,11 @@ export default async function Page() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
           <h1 className="text-2xl font-bold mb-6">Submit a Housing Tip</h1>
-          <HousingTipForm userId={session.user.profile?.id} />
+          <HousingTipForm
+            userId={session.user.profile?.id}
+            hoods={hoods}
+            buildings={buildings}
+          />
         </div>
 
         <div className="lg:col-span-2">

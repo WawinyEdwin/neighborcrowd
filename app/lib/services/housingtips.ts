@@ -1,7 +1,7 @@
 import { supabase } from "../supabase";
 import { Verification } from "../types";
 
-export const getHousingTips = async (id: string, limit?: number) => {
+export const getHousingTips = async (id: string) => {
   const { data, error } = await supabase
     .from("housing_tips")
     .select(`*,   user_profiles:user_id(name, avatar_url)`)
