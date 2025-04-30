@@ -1,13 +1,12 @@
-import AuthButton from "@/app/components/AuthButton";
 import type { Metadata } from "next";
 import { Lustria } from "next/font/google";
-import Link from "next/link";
 import AuthProvider from "./components/AuthProvider";
+import Header from "./components/Header";
 import "./globals.css";
 
 const lus = Lustria({
   weight: "400",
-  subsets: ["latin"]
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -24,14 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={lus.className}>
         <AuthProvider>
-          <header className="bg-white shadow-sm">
-            <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-              <h1 className="text-xl font-bold text-blue-600">
-                <Link href={"/"}> Neighbor Crowd</Link>
-              </h1>
-              <AuthButton />
-            </div>
-          </header>
+          <Header />
         </AuthProvider>
         <main>{children}</main>
       </body>

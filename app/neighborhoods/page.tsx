@@ -1,8 +1,8 @@
 import NeighborhoodCard from "@/app/components/NeighborhoodCard";
-import { getNeighborhoods } from "@/app/lib/services/neighborhoods";
+import { getNeighborHoods } from "@/app/lib/services/neighborhoods";
+import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { Metadata } from "next";
 import { authOptions } from "../api/auth/[...nextauth]/authOptions";
 
 export const metadata: Metadata = {
@@ -10,12 +10,11 @@ export const metadata: Metadata = {
   description: "Real places, habited by real people",
 };
 
-
-export default async function NeighborhoodsPage() {
+export default async function Page() {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/login");
 
-  const neighborhoods = await getNeighborhoods();
+  const neighborhoods = await getNeighborHoods(20);
 
   return (
     <div className="container mx-auto p-4">

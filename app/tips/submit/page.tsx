@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: "Share with the community information about a vacancy near you",
 };
 
-export default async function SubmitTipPage() {
+export default async function Page() {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {

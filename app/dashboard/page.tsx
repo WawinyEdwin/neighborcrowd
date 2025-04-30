@@ -1,13 +1,14 @@
 import NeighborhoodCard from "@/app/components/NeighborhoodCard";
-import { supabase } from "@/app/lib/supabase";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FaPlus } from "react-icons/fa";
 import { authOptions } from "../api/auth/[...nextauth]/authOptions";
 import HousingTipCard from "../components/HousingTipCard";
+import { getLatestHousingTips } from "../lib/services/housingtips";
+import { getNeighborHoods } from "../lib/services/neighborhoods";
 
-export default async function Dashboard() {
+export default async function Page() {
   const session = await getServerSession(authOptions);
   const userId = session?.user?.profile?.id;
 
@@ -15,18 +16,9 @@ export default async function Dashboard() {
     redirect("/login");
   }
 
-  // Fetch neighborhoods
-  const { data: neighborhoods } = await supabase
-    .from("neighborhoods")
-    .select("*")
-    .limit(5);
+  const neighborhoods = await getNeighborHoods(5);
 
-  // Fetch recent tips
-  const { data: recentTips } = await supabase
-    .from("housing_tips")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(3);
+  const recentTips = await getLatestHousingTips();
 
   return (
     <div className="container mx-auto p-4">

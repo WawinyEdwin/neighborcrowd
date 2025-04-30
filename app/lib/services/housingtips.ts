@@ -1,11 +1,11 @@
 import { supabase } from "../supabase";
 import { Verification } from "../types";
 
-export const getHousingTips = async (id: string) => {
+export const getHousingTips = async (id: string, limit?: number) => {
   const { data, error } = await supabase
     .from("housing_tips")
     .select(`*,   user_profiles:user_id(name, avatar_url)`)
-    .eq("neighborhood_id", id);
+    .eq("neighborhood_id", id)
 
   if (error) {
     console.error("Error fetching housing tips:", error);

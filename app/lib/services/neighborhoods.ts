@@ -1,12 +1,12 @@
 import { supabase } from "@/app/lib/supabase";
 import { Neighborhood, NeighborhoodSummary } from "../types";
 
-export const getNeighborhoods = async (): Promise<NeighborhoodSummary[]> => {
+export const getNeighborHoods = async (limit: number): Promise<NeighborhoodSummary[]> => {
   const { data, error } = await supabase
     .from("neighborhoods")
     .select("id, name, image_url, tip_count, average_rent")
     .order("tip_count", { ascending: false })
-    .limit(5);
+    .limit(limit);
 
   if (error) {
     console.error("Error fetching neighborhoods:", error);
