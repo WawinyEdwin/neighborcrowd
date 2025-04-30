@@ -2,8 +2,8 @@ import NeighborhoodCard from "@/app/components/NeighborhoodCard";
 import { getNeighborhoods } from "@/app/lib/services/neighborhoods";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { Metadata } from "next";
+import { authOptions } from "../api/auth/[...nextauth]/authOptions";
 
 export const metadata: Metadata = {
   title: "Neighbour Hoods",

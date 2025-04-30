@@ -1,15 +1,15 @@
 import NeighborhoodCard from "@/app/components/NeighborhoodCard";
 import { supabase } from "@/app/lib/supabase";
-import HousingTipCard from "../components/HousingTipCard";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { FaPlus } from "react-icons/fa";
+import { authOptions } from "../api/auth/[...nextauth]/authOptions";
+import HousingTipCard from "../components/HousingTipCard";
 
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
-  const userId  = session?.user?.profile?.id
+  const userId = session?.user?.profile?.id;
 
   if (!session) {
     redirect("/login");
@@ -30,7 +30,9 @@ export default async function Dashboard() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">Welcome, {session?.user?.name}</h1>
+      <h1 className="text-2xl font-bold mb-6">
+        Welcome, {session?.user?.name}
+      </h1>
 
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Featured Neighborhoods</h2>

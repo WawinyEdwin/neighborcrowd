@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import ContributorCard from "@/app/components/ContributorCard";
 import HousingTipCard from "@/app/components/HousingTipCard";
 import NeighborhoodCard from "@/app/components/NeighborhoodCard";
@@ -17,7 +17,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/login");
 
-  const userId = session?.user?.profile?.id
+  const userId = session?.user?.profile?.id;
 
   const neighborhood = await getNeighborhoodBySlug(id);
   if (!neighborhood) redirect("/neighborhoods");
@@ -47,7 +47,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           {tips.length > 0 ? (
             <div className="space-y-4">
               {tips.map((tip) => (
-                <HousingTipCard key={tip.id} tip={tip} userId={userId}/>
+                <HousingTipCard key={tip.id} tip={tip} userId={userId} />
               ))}
             </div>
           ) : (

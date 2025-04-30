@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import HousingTipCard from "@/app/components/HousingTipCard";
 import HousingTipForm from "@/app/components/HousingTipForm";
 import { getLatestHousingTips } from "@/app/lib/services/housingtips";

@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FcCollaboration, FcHome, FcLike, FcSurvey } from "react-icons/fc";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 import { getNeighborhoods } from "./lib/services/neighborhoods";
 
 export default async function Home() {
