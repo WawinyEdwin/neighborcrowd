@@ -59,7 +59,7 @@ export interface NeighborhoodSummary {
   average_rent: string;
 }
 
-export interface HousingTip {
+export interface Vacancy {
   id: string;
   user_id: string;
   neighborhood_id: string;
@@ -73,7 +73,7 @@ export interface HousingTip {
   verification_count: number;
 }
 
-export interface HousingTipWithUserProfile {
+export interface VacancyWithUserProfile {
   id: string;
   user_id: string;
   neighborhood_id: string;
@@ -100,7 +100,7 @@ export interface BuildingProfile {
   amenities: string[];
   landlord_rating: number;
   overall_rating: number;
-  tips: HousingTip[];
+  tips: Vacancy[];
 }
 
 export interface BuildingProfileInfo {
@@ -112,7 +112,7 @@ export interface BuildingProfileInfo {
   amenities: string[];
   landlord_rating: number;
   overall_rating: number;
-  tips: HousingTip[];
+  tips: Vacancy[];
   review_count?: number;
   unit_count?: number;
   water_availability?: number;

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FaPlus } from "react-icons/fa";
 import { authOptions } from "../api/auth/[...nextauth]/authOptions";
-import HousingTipCard from "../components/HousingTipCard";
+import HousingTipCard from "../components/VacancyCard";
 import { getLatestHousingTips } from "../lib/services/housingtips";
 import { getNeighborHoods } from "../lib/services/neighborhoods";
 

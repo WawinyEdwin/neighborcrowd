@@ -1,8 +1,8 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import BuildingProfile from "@/app/components/BuildingProfile";
-import HousingTipCard from "@/app/components/HousingTipCard";
+import VacancyCard from "@/app/components/VacancyCard";
 import { getBuildingProfile } from "@/app/lib/services/buildingprofiles";
-import { HousingTipWithUserProfile } from "@/app/lib/types";
+import { VacancyWithUserProfile } from "@/app/lib/types";
 
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
@@ -27,8 +27,8 @@ export default async function BuildingDetailPage(props: {
           <h2 className="text-xl font-semibold mb-4">Recent Housing Tips</h2>
           {building.neighborhood.housing_tips?.length > 0 ? (
             <div className="space-y-4">
-              {building.housing_tips.map((tip: HousingTipWithUserProfile) => (
-                <HousingTipCard
+              {building.housing_tips.map((tip: VacancyWithUserProfile) => (
+                <VacancyCard
                   key={tip.id}
                   tip={tip}
                   userId={session?.user?.profile?.id}

@@ -7,14 +7,14 @@ import {
 } from "@/app/lib/services/verifications";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { HousingTipWithUserProfile, Verification } from "../lib/types";
+import { VacancyWithUserProfile, Verification } from "../lib/types";
 import VerificationModal from "./VerificationModal";
 
-export default function HousingTipCard({
+export default function VacancyCard({
   tip,
   userId,
 }: {
-  tip: HousingTipWithUserProfile;
+  tip: VacancyWithUserProfile;
   userId: string | undefined;
 }) {
   const [verificationState, setVerificationState] = useState({

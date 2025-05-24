@@ -2,8 +2,8 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import BuildingProfile from "@/app/components/BuildingProfile";
 import BuildingSearchWrapper from "@/app/components/BuildingSearchWrapper";
 import ContributorCard from "@/app/components/ContributorCard";
-import HousingTipCard from "@/app/components/HousingTipCard";
 import NeighborhoodCard from "@/app/components/NeighborhoodCard";
+import HousingTipCard from "@/app/components/VacancyCard";
 import { getBuildingsByNeighborhood } from "@/app/lib/services/buildingprofiles"; // Add this import
 import { getHousingTips } from "@/app/lib/services/housingtips";
 import {
@@ -70,7 +70,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               href={`/tips/submit?neighborhood=${neighborhood.id}`}
               className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
             >
-              Submit Tip
+              Share a Vacancy
             </Link>
           </div>
 
